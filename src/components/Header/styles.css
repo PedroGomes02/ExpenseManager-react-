@@ -1,0 +1,61 @@
+.headerNav {
+  width: 100%;
+  height: 10vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--primaryColor);
+  padding: 0.5rem;
+  color: var(--secondaryTextColor);
+}
+.themeButton {
+  width: 15%;
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  text-align: left;
+}
+.themeButton:hover {
+  cursor: pointer;
+}
+
+.headerTitle {
+  width: 70%;
+  text-align: center;
+}
+.emptyHeaderSpan {
+  width: 15%;
+}
+
+.signInHeaderButton {
+  padding: 1rem;
+  border-radius: 5px;
+  border: none;
+  font-weight: bold;
+}
+.signInHeaderButton:hover {
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.userDataContainer {
+  width: 15%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+}
+.signOutButton {
+  align-self: flex-end;
+  font-weight: bold;
+  color: var(--secondaryColor);
+  background-color: transparent;
+  border: none;
+}
+.signOutButton:hover {
+  cursor: pointer;
+}
+.userAvatar {
+  border: 0.25rem solid var(--secondaryColor);
+  border-radius: 50%;
+}

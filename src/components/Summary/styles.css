@@ -1,0 +1,84 @@
+.summaryContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border: 0.25rem solid var(--secondaryColor);
+  border-radius: 0.5rem;
+  color: var(--primaryTextColor);
+}
+.summaryTitle {
+  font-weight: bold;
+  padding: 0 0.5rem;
+  color: var(--primaryTextColor);
+}
+
+.monthContainer {
+  text-align: center;
+}
+
+.summaryByTypeContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.summaryByTypeCard {
+  border-radius: 5px;
+  padding: 0.5rem;
+  text-align: center;
+  font-weight: bold;
+  color: var(--secondaryTextColor);
+  border: 0.125rem solid var(--primaryColor);
+}
+
+.incomeSummary {
+  background-color: var(--incomeColor);
+}
+.savingsSummary {
+  background-color: var(--savingsColor);
+}
+.expenseSummary {
+  background-color: var(--expenseColor);
+}
+
+.balanceSummary {
+  background-color: var(--secondaryColor);
+  font-size: 1.5rem;
+}
+
+.typeSummaryButtonsContainer {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.selectedTypeSummary {
+  background-color: lightgreen;
+}
+.typeSummaryListContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.typeSummaryListItem {
+  list-style-type: none;
+  background-color: var(--secondaryColor);
+  color: var(--secondaryTextColor);
+  padding: 0.25rem;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.typeSummaryListItemImage {
+  border-radius: 50%;
+}

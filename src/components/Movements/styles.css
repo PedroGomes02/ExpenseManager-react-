@@ -1,0 +1,79 @@
+.movementsContainer {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border: 0.25rem solid var(--secondaryColor);
+  border-radius: 0.5rem;
+}
+.movementsTitle {
+  font-weight: bold;
+  padding: 0 0.5rem;
+  color: var(--primaryTextColor);
+}
+.movementsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.movementListItem {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  gap: 1rem;
+  border: 0.125rem solid var(--primaryColor);
+}
+
+.despesa {
+  background-color: var(--expenseColor);
+}
+.receita {
+  background-color: var(--incomeColor);
+}
+.poupança {
+  background-color: var(--savingsColor);
+}
+
+.dateAndImageContainer {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  gap: 0.25rem;
+}
+
+.categorieImage {
+  border-radius: 50%;
+}
+
+.descriptionContainer {
+  width: 60%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.valueAndButtonsContainer {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.cardButtons {
+  text-align: center;
+}
+
+.movementButton {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+}
+.movementButton:hover {
+  cursor: pointer;
+}

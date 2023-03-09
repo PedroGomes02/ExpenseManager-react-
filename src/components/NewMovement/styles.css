@@ -1,0 +1,62 @@
+.newMovementContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border: 0.25rem solid var(--secondaryColor);
+  border-radius: 0.5rem;
+  color: var(--primaryTextColor);
+}
+
+.newMovementTitle {
+  font-weight: bold;
+  padding: 0 0.5rem;
+  color: var(--primaryTextColor);
+}
+
+.movementTypesContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0.5rem;
+}
+
+.categoriesContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0.5rem;
+}
+
+.dateAndValueContainer {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0.5rem;
+}
+.descriptionAndButtonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem;
+}
+.descriptionTextArea {
+  width: calc(75vw - 5rem);
+}
+
+.submitButton {
+  background-color: var(--primaryColor);
+  width: 3rem;
+  aspect-ratio: 1/1;
+  padding: 0.25rem;
+  margin:0.5rem;
+  font-size: 1.5rem;
+  color: var(--secondaryTextColor);
+  font-weight: bold;
+  border: 0.25rem solid var(--secondaryColor);
+  border-radius: 50%;
+}
+.submitButton:hover {
+  cursor: pointer;
+}
