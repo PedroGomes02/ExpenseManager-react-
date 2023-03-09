@@ -211,6 +211,14 @@ const Summary = (props: SummaryProps) => {
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2)}
           €
+          <button
+            className={`showMoreButton ${
+              isIncomeSummaryOpen ? "selectedTypeSummary" : undefined
+            }`}
+            onClick={handlerIncomeClick}
+          >
+            +
+          </button>
         </div>
         <div className="savingsSummary summaryByTypeCard">
           Savings:{" "}
@@ -218,6 +226,14 @@ const Summary = (props: SummaryProps) => {
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2)}
           €
+          <button
+            className={`showMoreButton ${
+              isSavingsSummaryOpen ? "selectedTypeSummary" : undefined
+            }`}
+            onClick={handlerSavingsClick}
+          >
+            +
+          </button>
         </div>
         <div className="expenseSummary summaryByTypeCard">
           Expense:{" "}
@@ -225,30 +241,17 @@ const Summary = (props: SummaryProps) => {
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2)}
           €
+          <button
+            className={`showMoreButton ${
+              isExpenseSummaryOpen ? "selectedTypeSummary" : undefined
+            }`}
+            onClick={handlerExpenseClick}
+          >
+            +
+          </button>
         </div>
       </div>
 
-      <p>Click below for movements by categorie:</p>
-      <div className="typeSummaryButtonsContainer">
-        <button
-          className={isIncomeSummaryOpen ? "selectedTypeSummary" : undefined}
-          onClick={handlerIncomeClick}
-        >
-          Income...
-        </button>
-        <button
-          className={isSavingsSummaryOpen ? "selectedTypeSummary" : undefined}
-          onClick={handlerSavingsClick}
-        >
-          Savings...
-        </button>
-        <button
-          className={isExpenseSummaryOpen ? "selectedTypeSummary" : undefined}
-          onClick={handlerExpenseClick}
-        >
-          Expense...
-        </button>
-      </div>
       <ul className="typeSummaryListContainer">
         {!isIncomeSummaryOpen
           ? null
