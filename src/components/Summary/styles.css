@@ -15,9 +15,24 @@
   padding: 0 0.5rem;
   color: var(--primaryTextColor);
 }
+.monthAndBalanceContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 
 .monthContainer {
   text-align: center;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  padding: 0.5rem;
+  font-weight: bold;
+  color: var(--secondaryTextColor);
+  border: 0.125rem solid var(--primaryColor);
+  background-color: var(--secondaryColor);
+}
+.monthOption {
+  background-color: var(--secondaryColor);
 }
 
 .summaryByTypeContainer {
@@ -31,7 +46,7 @@
 .summaryByTypeCard {
   display: flex;
   flex-direction: column;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 0.5rem;
   text-align: center;
   font-weight: bold;

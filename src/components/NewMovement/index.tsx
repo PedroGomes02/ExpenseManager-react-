@@ -11,7 +11,7 @@ import "./styles.css";
 
 interface NewMovementProps {
   setMovements: Dispatch<React.SetStateAction<Movement[]>>;
-  categories: Category[] | undefined;
+  categories: Category[];
   user: User | null;
 }
 
@@ -19,7 +19,7 @@ const NewMovement = (props: NewMovementProps) => {
   const { setMovements, categories, user } = props;
 
   const [currentMovementType, setCurrentMovementType] =
-    useState<string>("despesa");
+    useState<string>("expense");
   const [categoriesOfCurrentMovementType, setCategoriesOfCurrentMovementType] =
     useState<Category[]>();
   const [currentCategorie, setCurrentCategorie] = useState<Category>();
@@ -38,15 +38,13 @@ const NewMovement = (props: NewMovementProps) => {
   };
 
   useEffect(() => {
-    if (categories) {
-      const categoriesOfCurrentMovementType = categories.filter(
-        (categorie: Category) => {
-          return categorie.tipo === currentMovementType;
-        }
-      );
-      setCategoriesOfCurrentMovementType(categoriesOfCurrentMovementType);
-      setCurrentCategorie(categoriesOfCurrentMovementType[0]);
-    }
+    const categoriesOfCurrentMovementType = categories.filter(
+      (categorie: Category) => {
+        return categorie.tipo === currentMovementType;
+      }
+    );
+    setCategoriesOfCurrentMovementType(categoriesOfCurrentMovementType);
+    setCurrentCategorie(categoriesOfCurrentMovementType[0]);
   }, [categories, currentMovementType]);
 
   const handlerMovementTypeChange = (
@@ -108,7 +106,7 @@ const NewMovement = (props: NewMovementProps) => {
                   ? new Date().getMonth() + 1
                   : `0${new Date().getMonth() + 1}`
               }-${
-                new Date().getDate() > 10
+                new Date().getDate() > 9
                   ? new Date().getDate()
                   : `0${new Date().getDate()}`
               }`}
@@ -126,7 +124,7 @@ const NewMovement = (props: NewMovementProps) => {
             <input
               type="radio"
               name="tipo"
-              defaultValue="despesa"
+              defaultValue="expense"
               required
               defaultChecked
               onChange={handlerMovementTypeChange}
@@ -137,7 +135,7 @@ const NewMovement = (props: NewMovementProps) => {
             <input
               type="radio"
               name="tipo"
-              defaultValue="receita"
+              defaultValue="income"
               required
               onChange={handlerMovementTypeChange}
             />
@@ -147,7 +145,7 @@ const NewMovement = (props: NewMovementProps) => {
             <input
               type="radio"
               name="tipo"
-              defaultValue="poupança"
+              defaultValue="savings"
               required
               onChange={handlerMovementTypeChange}
             />

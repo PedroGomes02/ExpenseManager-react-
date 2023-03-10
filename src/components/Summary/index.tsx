@@ -43,18 +43,18 @@ const Summary = (props: SummaryProps) => {
   >([]);
 
   const months = [
-    "janeiro",
-    "fevereiro",
-    "março",
-    "abril",
-    "maio",
-    "junho",
-    "julho",
-    "agosto",
-    "setembro",
-    "outubro",
-    "novembro",
-    "dezembro",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   useEffect(() => {
@@ -67,17 +67,17 @@ const Summary = (props: SummaryProps) => {
 
       setExpense(
         monthlyMovements?.filter(
-          (movement: Movement) => movement.tipo === "despesa"
+          (movement: Movement) => movement.tipo === "expense"
         )
       );
       setIncome(
         monthlyMovements?.filter(
-          (movement: Movement) => movement.tipo === "receita"
+          (movement: Movement) => movement.tipo === "income"
         )
       );
       setSavings(
         monthlyMovements?.filter(
-          (movement: Movement) => movement.tipo === "poupança"
+          (movement: Movement) => movement.tipo === "savings"
         )
       );
     };
@@ -91,7 +91,7 @@ const Summary = (props: SummaryProps) => {
 
   const handlerIncomeClick = () => {
     const categorySummary: CategoriesSummaryByType[] = categories
-      .filter((categorie: Category) => categorie.tipo === "receita")
+      .filter((categorie: Category) => categorie.tipo === "income")
       .map((element: Category) => {
         return { nome: element.nome, imagem: element.imagem };
       })
@@ -100,7 +100,7 @@ const Summary = (props: SummaryProps) => {
           image: element.imagem,
           category: element.nome,
           accumulatedValue: income
-            ?.filter((receita: Movement) => receita.categoria === element.nome)
+            ?.filter((income: Movement) => income.categoria === element.nome)
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2),
         };
@@ -115,7 +115,7 @@ const Summary = (props: SummaryProps) => {
 
   const handlerSavingsClick = () => {
     const categorySummary: CategoriesSummaryByType[] = categories
-      .filter((categorie: Category) => categorie.tipo === "poupança")
+      .filter((categorie: Category) => categorie.tipo === "savings")
       .map((element: Category) => {
         return { nome: element.nome, imagem: element.imagem };
       })
@@ -124,9 +124,7 @@ const Summary = (props: SummaryProps) => {
           image: element.imagem,
           category: element.nome,
           accumulatedValue: savings
-            ?.filter(
-              (poupança: Movement) => poupança.categoria === element.nome
-            )
+            ?.filter((savings: Movement) => savings.categoria === element.nome)
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2),
         };
@@ -139,7 +137,7 @@ const Summary = (props: SummaryProps) => {
 
   const handlerExpenseClick = () => {
     const categorySummary: CategoriesSummaryByType[] = categories
-      .filter((categorie: Category) => categorie.tipo === "despesa")
+      .filter((categorie: Category) => categorie.tipo === "expense")
       .map((element: Category) => {
         return { nome: element.nome, imagem: element.imagem };
       })
@@ -148,7 +146,7 @@ const Summary = (props: SummaryProps) => {
           image: element.imagem,
           category: element.nome,
           accumulatedValue: expense
-            ?.filter((despesa: Movement) => despesa.categoria === element.nome)
+            ?.filter((expense: Movement) => expense.categoria === element.nome)
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2),
         };
@@ -162,48 +160,51 @@ const Summary = (props: SummaryProps) => {
   return (
     <fieldset className="summaryContainer">
       <legend className="summaryTitle">Monthly Summary</legend>
-      <div className="monthContainer">
+      <div className="monthAndBalanceContainer">
         <select
+          className="monthContainer"
           onChange={handlerMonthChange}
           defaultValue={new Date().getMonth()}
         >
           {months.map((month: string, index: number) => (
-            <option key={index} value={index}>
+            <option className="monthOption" key={index} value={index}>
               {month}
             </option>
           ))}
         </select>
+
+        <div className="balanceSummary summaryByTypeCard">
+          Balance:{" "}
+          {(
+            Number(
+              income
+                .reduce(
+                  (a: number, c: { valor: number }) => a + Number(c.valor),
+                  0
+                )
+                .toFixed(2)
+            ) -
+            Number(
+              savings
+                .reduce(
+                  (a: number, c: { valor: number }) => a + Number(c.valor),
+                  0
+                )
+                .toFixed(2)
+            ) -
+            Number(
+              expense
+                .reduce(
+                  (a: number, c: { valor: number }) => a + Number(c.valor),
+                  0
+                )
+                .toFixed(2)
+            )
+          ).toFixed(2)}
+          €
+        </div>
       </div>
-      <div className="balanceSummary summaryByTypeCard">
-        Balance:{" "}
-        {(
-          Number(
-            income
-              .reduce(
-                (a: number, c: { valor: number }) => a + Number(c.valor),
-                0
-              )
-              .toFixed(2)
-          ) -
-          Number(
-            savings
-              .reduce(
-                (a: number, c: { valor: number }) => a + Number(c.valor),
-                0
-              )
-              .toFixed(2)
-          ) -
-          Number(
-            expense
-              .reduce(
-                (a: number, c: { valor: number }) => a + Number(c.valor),
-                0
-              )
-              .toFixed(2)
-          )
-        ).toFixed(2)}
-        €
-      </div>
+
       <div className="summaryByTypeContainer">
         <div className="incomeSummary summaryByTypeCard">
           Income:{" "}

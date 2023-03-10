@@ -26,13 +26,13 @@
   border: 0.125rem solid var(--primaryColor);
 }
 
-.despesa {
+.expense {
   background-color: var(--expenseColor);
 }
-.receita {
+.income {
   background-color: var(--incomeColor);
 }
-.poupança {
+.savings {
   background-color: var(--savingsColor);
 }
 
@@ -79,20 +79,52 @@
   cursor: pointer;
 }
 
+.movementsListControls {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
 .filterButtonsContainer {
-  text-align: right;
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
 }
 
 .filterButton {
   padding: 0.125rem;
-  margin: 0.25rem;
   border-radius: 5px;
   padding: 0.25rem;
   border-color: var(--primaryColor);
+  font-size: 0.8rem;
 }
 .filterButton:hover {
   cursor: pointer;
 }
 .selectedFilter {
   background-color: var(--primaryColor);
+}
+
+.paginationControls {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.paginationState {
+  padding: 0.125rem;
+  margin: 0.25rem;
+  color: var(--primaryTextColor);
+  font-size: 0.8rem;
+}
+.paginationButton {
+  padding: 0.125rem;
+  border-radius: 5px;
+  padding: 0.25rem;
+  border-color: var(--primaryColor);
+  font-size: 0.8rem;
+}
+
+.paginationButton:hover {
+  cursor: pointer;
 }

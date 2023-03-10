@@ -1,4 +1,4 @@
-import { Dispatch, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 
 import { db } from "../../firebase";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
@@ -9,9 +9,9 @@ import { Category, Movement } from "../../types";
 import "./styles.css";
 
 interface MovementsProps {
-  movements: Movement[] | undefined;
+  movements: Movement[];
   setMovements: Dispatch<React.SetStateAction<Movement[]>>;
-  categories: Category[] | undefined;
+  categories: Category[];
 }
 
 const Movements = (props: MovementsProps) => {
@@ -59,84 +59,125 @@ const Movements = (props: MovementsProps) => {
     }
   };
 
-  const [filterBy, setFilterBy] = useState<string>("all");
-
-  const movementTypes = ["all", "receita", "poupança", "despesa"];
-
+  const [filterByType, setFilterByType] = useState<string>("all");
+  const movementTypes = ["all", "income", "savings", "expense"];
+  const filteredMovements = !(filterByType === "all")
+    ? movements?.filter((movement: Movement) => movement.tipo === filterByType)
+    : movements;
   const handlerClick = (type: string) => {
-    setFilterBy(type);
+    setFilterByType(type);
+  };
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const numberOfMovementsPerPage = 20;
+  const decreasePageButton = () => {
+    if (Math.ceil(filteredMovements.length / numberOfMovementsPerPage) < 2) {
+      return;
+    }
+    if (currentPage === 0) {
+      return;
+    }
+    setCurrentPage(currentPage - 1);
+  };
+  const increasePageButton = () => {
+    if (Math.ceil(filteredMovements.length / numberOfMovementsPerPage) < 2) {
+      return;
+    }
+    if (
+      currentPage ===
+      Math.ceil(filteredMovements.length / numberOfMovementsPerPage) - 1
+    ) {
+      return;
+    }
+    setCurrentPage(currentPage + 1);
   };
 
   return (
     <fieldset className="movementsContainer">
       <legend className="movementsTitle">Movements History</legend>
-      <div className="filterButtonsContainer">
-        {movementTypes.map((type, index) => (
-          <button
-            key={index}
-            className={`filterButton ${
-              filterBy === type ? "selectedFilter" : ""
-            }`}
-            onClick={() => handlerClick(type)}
-          >
-            {type}
+
+      <div className="movementsListControls">
+        <div className="paginationControls">
+          <button className="paginationButton" onClick={decreasePageButton}>
+            {`<`}
           </button>
-        ))}
+          <div className="paginationState">
+            Page {currentPage + 1} of{" "}
+            {Math.ceil(filteredMovements.length / numberOfMovementsPerPage)}
+          </div>
+          <button className="paginationButton" onClick={increasePageButton}>
+            {`>`}
+          </button>
+        </div>
+
+        <div className="filterButtonsContainer">
+          {movementTypes.map((type, index) => (
+            <button
+              key={index}
+              className={`filterButton ${
+                filterByType === type ? "selectedFilter" : ""
+              }`}
+              onClick={() => handlerClick(type)}
+            >
+              {type}
+            </button>
+          ))}
+        </div>
       </div>
 
       <ul className="movementsList">
-        {(!(filterBy === "all")
-          ? movements?.filter(
-              (movement: Movement) => movement.tipo === filterBy
-            )
-          : movements
-        )?.map((movement: Movement, index: number) => {
-          return (
-            <li key={index} className={`movementListItem ${movement.tipo}`}>
-              <div className="dateAndImageContainer">
-                <span>{movement.data} </span>
-                <img
-                  className="categorieImage"
-                  src={
-                    categories?.filter(
-                      (e: Category) => e.nome === movement.categoria
-                    )[0].imagem
-                  }
-                  alt=""
-                  width="30"
-                  height="30"
-                />
-              </div>
-              <div className="descriptionContainer">
-                <span>
-                  {`${movement.categoria.toUpperCase()} ${
-                    movement.subCategoria ? `(${movement.subCategoria})` : ""
-                  }`}
-                </span>
-                <span>{movement.descrição}</span>
-              </div>
-              <div className="valueAndButtonsContainer">
-                <span>{`${movement.valor}€`}</span>
-                <div className="cardButtons">
-                  <button
-                    className="movementButton"
-                    id={movement.id}
-                    onClick={deleteFromDB}
-                  >
-                    🗑️
-                  </button>
-                  <button
-                    className="movementButton"
-                    id={movement.id}
-                    onClick={updateOnDB}
-                  >
-                    🆙
-                  </button>
+        {filteredMovements
+          .slice(
+            currentPage * numberOfMovementsPerPage,
+            currentPage * numberOfMovementsPerPage + numberOfMovementsPerPage
+          )
+          .map((movement: Movement, index: number) => {
+            return (
+              <li key={index} className={`movementListItem ${movement.tipo}`}>
+                <div className="dateAndImageContainer">
+                  <span>{movement.data} </span>
+                  <img
+                    className="categorieImage"
+                    src={
+                      categories?.filter(
+                        (e: Category) => e.nome === movement.categoria
+                      )[0].imagem
+                    }
+                    alt=""
+                    width="30"
+                    height="30"
+                  />
                 </div>
-              </div>
-            </li>
-          );
-        })}
+                <div className="descriptionContainer">
+                  <span>
+                    {`${movement.categoria.toUpperCase()} ${
+                      movement.subCategoria ? `(${movement.subCategoria})` : ""
+                    }`}
+                  </span>
+                  <span>{movement.descrição}</span>
+                </div>
+                <div className="valueAndButtonsContainer">
+                  <span>{`${movement.valor}€`}</span>
+                  <div className="cardButtons">
+                    <button
+                      className="movementButton"
+                      id={movement.id}
+                      onClick={deleteFromDB}
+                    >
+                      🗑️
+                    </button>
+                    <button
+                      className="movementButton"
+                      id={movement.id}
+                      onClick={updateOnDB}
+                    >
+                      🆙
+                    </button>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
       </ul>
     </fieldset>
   );
