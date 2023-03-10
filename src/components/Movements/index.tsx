@@ -1,4 +1,4 @@
-import { Dispatch } from "react";
+import { Dispatch, useState } from "react";
 
 import { db } from "../../firebase";
 import { deleteDoc, doc, updateDoc } from "firebase/firestore";
@@ -59,11 +59,38 @@ const Movements = (props: MovementsProps) => {
     }
   };
 
+  const [filterBy, setFilterBy] = useState<string>("all");
+
+  const movementTypes = ["all", "receita", "poupança", "despesa"];
+
+  const handlerClick = (type: string) => {
+    setFilterBy(type);
+  };
+
   return (
     <fieldset className="movementsContainer">
       <legend className="movementsTitle">Movements History</legend>
+      <div className="filterButtonsContainer">
+        {movementTypes.map((type, index) => (
+          <button
+            key={index}
+            className={`filterButton ${
+              filterBy === type ? "selectedFilter" : ""
+            }`}
+            onClick={() => handlerClick(type)}
+          >
+            {type}
+          </button>
+        ))}
+      </div>
+
       <ul className="movementsList">
-        {movements?.map((movement: Movement, index: number) => {
+        {(!(filterBy === "all")
+          ? movements?.filter(
+              (movement: Movement) => movement.tipo === filterBy
+            )
+          : movements
+        )?.map((movement: Movement, index: number) => {
           return (
             <li key={index} className={`movementListItem ${movement.tipo}`}>
               <div className="dateAndImageContainer">

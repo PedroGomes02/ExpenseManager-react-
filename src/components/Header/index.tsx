@@ -1,12 +1,20 @@
 import { useEffect, useState } from "react";
 import "./styles.css";
+import { User } from "firebase/auth";
+interface HeaderProps {
+  googleSignIn: () => void;
+  signOut: () => void;
+  loading: boolean;
+  user: User | null | undefined;
+  isUserDataLoading: boolean;
+}
 
-const Header = (props: any) => {
-  const { googleSignIn, signOut, loading, user } = props;
+const Header = (props: HeaderProps) => {
+  const { googleSignIn, signOut, loading, user, isUserDataLoading } = props;
 
   // THEMING WITH CSS VARIABLES
   const [isDarkTheme, setIsDarkTheme] = useState<boolean>(false);
-  
+
   const handlerClickThemeChange = () => {
     if (document.documentElement.getAttribute("theme") === "dark") {
       document.documentElement.setAttribute("theme", "light");
@@ -29,19 +37,27 @@ const Header = (props: any) => {
         {isDarkTheme ? "🌒" : "🌔"}
       </button>
       <h1 className="headerTitle">Expense Manager</h1>
-      {loading ? <span className="emptyHeaderSpan"></span> : !user ? (
-        <button className="signInHeaderButton" onClick={googleSignIn}>Google SignIn</button>
+      {loading ? (
+        <span className="emptyHeaderSpan"></span>
+      ) : !user ? (
+        <button className="signInHeaderButton" onClick={googleSignIn}>
+          Google SignIn
+        </button>
       ) : (
         <div className="userDataContainer">
-          <button className="signOutButton" onClick={signOut}>
-            X
-          </button>
-          <img
-            className="userAvatar"
-            src={user.photoURL}
-            alt={user.displayName}
-            width={50}
-          />
+          {isUserDataLoading ? null : (
+            <>
+              <button className="signOutButton" onClick={signOut}>
+                X
+              </button>
+              <img
+                className="userAvatar"
+                src={user.photoURL as string}
+                alt={user.displayName as string}
+                width={50}
+              />
+            </>
+          )}
         </div>
       )}
     </nav>

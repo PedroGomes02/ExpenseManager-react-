@@ -3,6 +3,8 @@
   padding: 0.5rem;
   border: 0.25rem solid var(--secondaryColor);
   border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
 }
 .movementsTitle {
   font-weight: bold;
@@ -21,7 +23,6 @@
   justify-content: space-between;
   padding: 0.5rem;
   border-radius: 0.5rem;
-  gap: 1rem;
   border: 0.125rem solid var(--primaryColor);
 }
 
@@ -36,7 +37,7 @@
 }
 
 .dateAndImageContainer {
-  width: 20%;
+  min-width: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,18 +51,18 @@
 }
 
 .descriptionContainer {
-  width: 60%;
+  flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
 
 .valueAndButtonsContainer {
-  width: 20%;
+  min-width: 80px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   font-weight: bold;
 }
 
@@ -76,4 +77,22 @@
 }
 .movementButton:hover {
   cursor: pointer;
+}
+
+.filterButtonsContainer {
+  text-align: right;
+}
+
+.filterButton {
+  padding: 0.125rem;
+  margin: 0.25rem;
+  border-radius: 5px;
+  padding: 0.25rem;
+  border-color: var(--primaryColor);
+}
+.filterButton:hover {
+  cursor: pointer;
+}
+.selectedFilter {
+  background-color: var(--primaryColor);
 }

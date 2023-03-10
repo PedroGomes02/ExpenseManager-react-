@@ -43,6 +43,7 @@ export default function App() {
         signOut={signOut}
         loading={loading}
         user={user}
+        isUserDataLoading={isUserDataLoading}
       />
 
       {loading ? (
