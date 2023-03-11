@@ -66,6 +66,7 @@ const Movements = (props: MovementsProps) => {
     : movements;
   const handlerClick = (type: string) => {
     setFilterByType(type);
+    setCurrentPage(0);
   };
 
   const [currentPage, setCurrentPage] = useState(0);

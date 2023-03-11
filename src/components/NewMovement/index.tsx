@@ -31,7 +31,7 @@ const NewMovement = (props: NewMovementProps) => {
           return categorie.tipo === currentMovementType;
         }
       );
-      setCurrentMovementType("despesa");
+      setCurrentMovementType("expense");
       setCategoriesOfCurrentMovementType(categoriesOfCurrentMovementType);
       setCurrentCategorie(categoriesOfCurrentMovementType[0]);
     }
