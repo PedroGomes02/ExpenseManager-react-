@@ -34,6 +34,24 @@
 .monthOption {
   background-color: var(--secondaryColor);
 }
+.progressBalance {
+  width: 50%;
+  height: 2rem;
+  border: 0.25rem solid var(--primaryColor);
+  border-radius: 10px;
+}
+
+.progressBalance::-webkit-progress-bar {
+  background-color: var(--incomeColor);
+}
+
+.progressBalance::-webkit-progress-value {
+  background-color: var(--expenseColor);
+}
+
+.progressBalance::-moz-progress-bar {
+  background-color: var(--incomeColor);
+}
 
 .summaryByTypeContainer {
   width: 100%;

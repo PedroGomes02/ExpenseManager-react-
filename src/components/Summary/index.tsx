@@ -204,6 +204,32 @@ const Summary = (props: SummaryProps) => {
           €
         </div>
       </div>
+      <progress
+        className="progressBalance"
+        value={
+          Number(
+            savings
+              .reduce(
+                (a: number, c: { valor: number }) => a + Number(c.valor),
+                0
+              )
+              .toFixed(2)
+          ) +
+          Number(
+            expense
+              .reduce(
+                (a: number, c: { valor: number }) => a + Number(c.valor),
+                0
+              )
+              .toFixed(2)
+          )
+        }
+        max={Number(
+          income
+            .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
+            .toFixed(2)
+        )}
+      ></progress>
 
       <div className="summaryByTypeContainer">
         <div className="incomeSummary summaryByTypeCard">
