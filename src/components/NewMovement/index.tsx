@@ -78,6 +78,7 @@ const NewMovement = (props: NewMovementProps) => {
       valor: event.currentTarget.valor.value,
     };
     console.log(newMovement);
+
     try {
       const docRef = await addDoc(collection(db, "movimentos"), newMovement);
       console.log("Document written with ID: ", docRef.id);
@@ -169,7 +170,7 @@ const NewMovement = (props: NewMovementProps) => {
 
           {!currentCategorie?.subCategorias ? null : (
             <label>
-              SubCategorie
+              SubCategory
               <select name="subCategoria">
                 {currentCategorie.subCategorias.map(
                   (subCategoria: string, index: number) => {

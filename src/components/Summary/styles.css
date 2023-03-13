@@ -35,18 +35,24 @@
   background-color: var(--secondaryColor);
 }
 .progressBalance {
-  width: 50%;
+  width: 70%;
   height: 2rem;
-  border: 0.25rem solid var(--primaryColor);
-  border-radius: 10px;
+  border:none;
 }
 
 .progressBalance::-webkit-progress-bar {
   background-color: var(--incomeColor);
+  border-radius: 10px;
+  border: 0.125rem solid var(--primaryColor);
 }
 
 .progressBalance::-webkit-progress-value {
-  background-color: var(--expenseColor);
+  background: linear-gradient(
+    to right,
+    var(--savingsColor),
+    var(--expenseColor)
+  );
+  border-radius: 10px;
 }
 
 .progressBalance::-moz-progress-bar {
