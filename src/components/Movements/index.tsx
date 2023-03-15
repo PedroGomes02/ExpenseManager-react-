@@ -5,6 +5,7 @@ import { Category, Movement } from "../../types";
 
 import "./styles.css";
 import UpdateMovement from "../UpdateMovement";
+import Loading from "../Loading";
 
 interface MovementsProps {
   movements: Movement[];
@@ -118,45 +119,50 @@ const Movements = (props: MovementsProps) => {
           .map((movement: Movement, index: number) => {
             return (
               <li key={index} className={`movementListItem ${movement.tipo}`}>
-                <div className="dateAndImageContainer">
-                  <span>{movement.data} </span>
-                  <img
-                    className="categorieImage"
-                    src={
-                      categories?.filter(
-                        (e: Category) => e.nome === movement.categoria
-                      )[0].imagem
-                    }
-                    alt=""
-                    width="30"
-                    height="30"
-                  />
-                </div>
-                <div className="descriptionContainer">
-                  <span>
-                    {`${movement.categoria.toUpperCase()} ${
-                      movement.subCategoria ? `(${movement.subCategoria})` : ""
-                    }`}
-                  </span>
-                  <span>{movement.descrição}</span>
-                </div>
-                <div className="valueAndButtonsContainer">
-                  <span>{`${movement.valor}€`}</span>
-                  <div className="cardButtons">
-                    <button
-                      className="movementButton"
-                      id={movement.id}
-                      onClick={handlerClickDelete}
-                    >
-                      🗑️
-                    </button>
-                    <button
-                      className="movementButton"
-                      id={movement.id}
-                      onClick={handlerClickUpdate}
-                    >
-                      🆙
-                    </button>
+                <div className="movementListItemData">
+                  <div className="dateAndImageContainer">
+                    <span>{movement.data} </span>
+                    <img
+                      className="categorieImage"
+                      src={
+                        categories?.filter(
+                          (e: Category) => e.nome === movement.categoria
+                        )[0].imagem
+                      }
+                      alt=""
+                      width="30"
+                      height="30"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="descriptionContainer">
+                    <span>
+                      {`${movement.categoria.toUpperCase()} ${
+                        movement.subCategoria
+                          ? `(${movement.subCategoria})`
+                          : ""
+                      }`}
+                    </span>
+                    <span>{movement.descrição}</span>
+                  </div>
+                  <div className="valueAndButtonsContainer">
+                    <span>{`${movement.valor}€`}</span>
+                    <div className="cardButtons">
+                      <button
+                        className="movementButton"
+                        id={movement.id}
+                        onClick={handlerClickDelete}
+                      >
+                        🗑️
+                      </button>
+                      <button
+                        className="movementButton"
+                        id={movement.id}
+                        onClick={handlerClickUpdate}
+                      >
+                        🆙
+                      </button>
+                    </div>
                   </div>
                 </div>
                 {movementIdUpdateOpened === movement.id ? (

@@ -16,6 +16,7 @@ import Loading from "./components/Loading";
 
 import { getUserData } from "./utils";
 import { Category, Movement } from "./types";
+import Footer from "./components/Footer";
 
 export default function App() {
   // AUTH Hook and Functions
@@ -67,6 +68,7 @@ export default function App() {
           />
         </>
       )}
+      <Footer />
     </div>
   );
 }

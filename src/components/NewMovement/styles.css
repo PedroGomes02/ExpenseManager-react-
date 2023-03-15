@@ -28,14 +28,16 @@
   justify-content: space-evenly;
   align-items: center;
   margin: 0.5rem;
-  gap: 1rem;
+  gap: 0.5rem;
 }
+
 .movementTypesContainer label input {
   margin: 0.25rem;
 }
 
 .categoriesContainer {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
   margin: 0.5rem;
@@ -45,7 +47,6 @@
 }
 
 .descriptionAndButtonContainer {
-  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;

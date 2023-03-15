@@ -1,4 +1,5 @@
 .movementsContainer {
+  flex-grow: 1;
   margin: 0.5rem;
   padding: 0.5rem;
   border: 0.25rem solid var(--secondaryColor);
@@ -19,13 +20,12 @@
 .movementListItem {
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  gap: 0.5rem;
   padding: 0.5rem;
   border-radius: 0.5rem;
   border: 0.125rem solid var(--primaryColor);
-
-  flex-direction: column;
 }
 
 .expense {
@@ -36,6 +36,11 @@
 }
 .savings {
   background-color: var(--savingsColor);
+}
+.movementListItemData {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .dateAndImageContainer {

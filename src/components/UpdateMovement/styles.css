@@ -1,15 +1,26 @@
 .updateMovementContainer {
-    display: flex;
-    flex-direction: column;
-    margin: 0.125rem;
-    padding: 0.125rem;
-    border: 0.125rem solid var(--secondaryColor);
-    border-radius: 0.5rem;
-    color: var(--primaryTextColor);
-  }
-  
-  .updateMovementTitle {
-    font-weight: bold;
-    padding: 0 0.5rem;
-    color: var(--primaryTextColor);
-  }
+  display: flex;
+  flex-direction: column;
+  margin: 0.125rem;
+  padding: 0.125rem;
+  border: 0.125rem solid var(--secondaryColor);
+  border-radius: 0.5rem;
+  color: var(--primaryTextColor);
+}
+
+.updateMovementTitle {
+  font-weight: bold;
+  padding: 0 0.5rem;
+  color: var(--primaryTextColor);
+}
+
+.descriptionAndButtonContainerUpdate {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.5rem;
+}
+.descriptionTextAreaUpdate {
+  width: calc(75vw - 5rem);
+  margin: 0.25rem;
+}

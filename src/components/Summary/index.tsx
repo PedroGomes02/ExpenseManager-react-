@@ -24,9 +24,9 @@ const Summary = (props: SummaryProps) => {
     new Date().getFullYear()
   );
 
-  const [income, setIncome] = useState<Movement[]>([]);
-  const [savings, setSavings] = useState<Movement[]>([]);
-  const [expense, setExpense] = useState<Movement[]>([]);
+  const [incomeMovements, setIncomeMovements] = useState<Movement[]>([]);
+  const [savingsMovements, setSavingsMovements] = useState<Movement[]>([]);
+  const [expenseMovements, setExpenseMovements] = useState<Movement[]>([]);
 
   const [isIncomeSummaryOpen, setIsIncomeSummaryOpen] =
     useState<boolean>(false);
@@ -66,20 +66,21 @@ const Summary = (props: SummaryProps) => {
       const movements = await getDataFromDB("movimentos");
       const monthlyMovements = movements.filter(
         (movimento: Movement) =>
-          Number(movimento.data.split("/")[1]) === currentMonth
+          Number(movimento.data.split("/")[1]) === currentMonth &&
+          new Date(movimento.data).getFullYear() === currentYear
       );
 
-      setExpense(
+      setExpenseMovements(
         monthlyMovements?.filter(
           (movement: Movement) => movement.tipo === "expense"
         )
       );
-      setIncome(
+      setIncomeMovements(
         monthlyMovements?.filter(
           (movement: Movement) => movement.tipo === "income"
         )
       );
-      setSavings(
+      setSavingsMovements(
         monthlyMovements?.filter(
           (movement: Movement) => movement.tipo === "savings"
         )
@@ -89,7 +90,6 @@ const Summary = (props: SummaryProps) => {
   }, [currentMonth, movements]);
 
   const handlerMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    // e.preventDefault();
     setCurrentMonth(Number(e.currentTarget.value) + 1);
   };
 
@@ -103,7 +103,7 @@ const Summary = (props: SummaryProps) => {
         return {
           image: element.imagem,
           category: element.nome,
-          accumulatedValue: income
+          accumulatedValue: incomeMovements
             ?.filter((income: Movement) => income.categoria === element.nome)
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2),
@@ -127,7 +127,7 @@ const Summary = (props: SummaryProps) => {
         return {
           image: element.imagem,
           category: element.nome,
-          accumulatedValue: savings
+          accumulatedValue: savingsMovements
             ?.filter((savings: Movement) => savings.categoria === element.nome)
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2),
@@ -149,7 +149,7 @@ const Summary = (props: SummaryProps) => {
         return {
           image: element.imagem,
           category: element.nome,
-          accumulatedValue: expense
+          accumulatedValue: expenseMovements
             ?.filter((expense: Movement) => expense.categoria === element.nome)
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2),
@@ -182,7 +182,7 @@ const Summary = (props: SummaryProps) => {
           Balance:{" "}
           {(
             Number(
-              income
+              incomeMovements
                 .reduce(
                   (a: number, c: { valor: number }) => a + Number(c.valor),
                   0
@@ -190,7 +190,7 @@ const Summary = (props: SummaryProps) => {
                 .toFixed(2)
             ) -
             Number(
-              savings
+              savingsMovements
                 .reduce(
                   (a: number, c: { valor: number }) => a + Number(c.valor),
                   0
@@ -198,7 +198,7 @@ const Summary = (props: SummaryProps) => {
                 .toFixed(2)
             ) -
             Number(
-              expense
+              expenseMovements
                 .reduce(
                   (a: number, c: { valor: number }) => a + Number(c.valor),
                   0
@@ -213,7 +213,7 @@ const Summary = (props: SummaryProps) => {
         className="progressBalance"
         value={
           Number(
-            savings
+            savingsMovements
               .reduce(
                 (a: number, c: { valor: number }) => a + Number(c.valor),
                 0
@@ -221,7 +221,7 @@ const Summary = (props: SummaryProps) => {
               .toFixed(2)
           ) +
           Number(
-            expense
+            expenseMovements
               .reduce(
                 (a: number, c: { valor: number }) => a + Number(c.valor),
                 0
@@ -230,7 +230,7 @@ const Summary = (props: SummaryProps) => {
           )
         }
         max={Number(
-          income
+          incomeMovements
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2)
         )}
@@ -239,7 +239,7 @@ const Summary = (props: SummaryProps) => {
       <div className="summaryByTypeContainer">
         <div className="incomeSummary summaryByTypeCard">
           Income:{" "}
-          {income
+          {incomeMovements
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2)}
           €
@@ -254,7 +254,7 @@ const Summary = (props: SummaryProps) => {
         </div>
         <div className="savingsSummary summaryByTypeCard">
           Savings:{" "}
-          {savings
+          {savingsMovements
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2)}
           €
@@ -269,7 +269,7 @@ const Summary = (props: SummaryProps) => {
         </div>
         <div className="expenseSummary summaryByTypeCard">
           Expense:{" "}
-          {expense
+          {expenseMovements
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2)}
           €
