@@ -1,12 +1,10 @@
-import { Dispatch, useEffect, useState } from "react";
+import { Dispatch, useState } from "react";
 
-import { db } from "../../firebase";
-import { deleteDoc, doc, updateDoc } from "firebase/firestore";
-
-import { refreshMovements } from "../../utils";
+import { deleteDocOnCollection, refreshMovements } from "../../utils";
 import { Category, Movement } from "../../types";
 
 import "./styles.css";
+import UpdateMovement from "../UpdateMovement";
 
 interface MovementsProps {
   movements: Movement[];
@@ -17,17 +15,15 @@ interface MovementsProps {
 const Movements = (props: MovementsProps) => {
   const { movements, setMovements, categories } = props;
 
+  const [movementIdUpdateOpened, setMovementIdUpdateOpened] = useState("");
+
   //DELETE MOVEMENTS FROM DB
-  const deleteFromDB = async (
+  const handlerClickDelete = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     if (confirm("Delete this movement? Are you sure?")) {
       try {
-        await deleteDoc(doc(db, "movimentos", event.currentTarget.id));
-        const target = event.target as HTMLElement;
-        console.log("Delete document with ID: ", target.id);
-      } catch (error) {
-        console.error("Error deletting document: ", error);
+        await deleteDocOnCollection(event.currentTarget.id, "movimentos");
       } finally {
         refreshMovements(setMovements);
       }
@@ -35,28 +31,15 @@ const Movements = (props: MovementsProps) => {
   };
 
   //UPDATE MOVEMENTS ON DB
-  const updateOnDB = async (
+  const handlerClickUpdate = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    event.preventDefault();
-    alert("Doing nothing at the moment");
-    return;
-    //MISS GET NEW DATA TO UPDATE
-
-    try {
-      const docRef = await updateDoc(
-        doc(db, "movimentos", event.currentTarget.id),
-        {
-          valor: 50,
-        }
-      );
-      console.log("Document Updated with ID: ", event.currentTarget.id);
-    } catch (e) {
-      console.error("Error updating document: ", e);
-    } finally {
-      // refreshMovimentos(setMovimentos);
-      document.location.reload();
+    if (movementIdUpdateOpened === event.currentTarget.id) {
+      setMovementIdUpdateOpened("");
+    } else {
+      setMovementIdUpdateOpened(event.currentTarget.id);
     }
+    return;
   };
 
   const [filterByType, setFilterByType] = useState<string>("all");
@@ -163,19 +146,27 @@ const Movements = (props: MovementsProps) => {
                     <button
                       className="movementButton"
                       id={movement.id}
-                      onClick={deleteFromDB}
+                      onClick={handlerClickDelete}
                     >
                       🗑️
                     </button>
                     <button
                       className="movementButton"
                       id={movement.id}
-                      onClick={updateOnDB}
+                      onClick={handlerClickUpdate}
                     >
                       🆙
                     </button>
                   </div>
                 </div>
+                {movementIdUpdateOpened === movement.id ? (
+                  <UpdateMovement
+                    setMovements={setMovements}
+                    categories={categories}
+                    movementToUpdate={movement}
+                    setMovementIdUpdateOpened={setMovementIdUpdateOpened}
+                  />
+                ) : null}
               </li>
             );
           })}

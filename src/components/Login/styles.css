@@ -21,8 +21,8 @@
 }
 .signInButton {
   padding: 1rem;
-  border-radius: 5px;
   border: none;
+  border-radius: 5px;
   font-weight: bold;
 }
 .signInButton:hover {

@@ -1,5 +1,13 @@
-import { collection, getDocs } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "./firebase";
+import { Movement } from "./types";
 
 const sortBy = (arr: any[], key: string) =>
   arr.sort((a, b) => (a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0));
@@ -33,4 +41,46 @@ const refreshMovements = async (setMovements: any) => {
   setMovements(sortBy([...movementsFromDB], "data").reverse());
 };
 
-export { getDataFromDB, getUserData, refreshMovements };
+const addDocOnCollection = async (
+  docId: string,
+  collection: any,
+  newMovement: Movement
+) => {
+  try {
+    await addDoc(collection(db, collection), newMovement);
+    console.log("Document written with ID: ", docId);
+  } catch (error) {
+    console.error("Error adding document: ", error);
+  }
+};
+
+const deleteDocOnCollection = async (docId: string, collection: any) => {
+  try {
+    await deleteDoc(doc(db, collection, docId));
+    console.log("Delete document with ID: ", docId);
+  } catch (error) {
+    console.error("Error deletting document: ", error);
+  }
+};
+
+const updateDocOnCollection = async (
+  docId: string,
+  collection: any,
+  newDataObject: any
+) => {
+  try {
+    await updateDoc(doc(db, collection, docId), newDataObject);
+    console.log("Updating document with ID: ", docId);
+  } catch (error) {
+    console.error("Error updating document: ", error);
+  }
+};
+
+export {
+  getDataFromDB,
+  getUserData,
+  refreshMovements,
+  addDocOnCollection,
+  deleteDocOnCollection,
+  updateDocOnCollection,
+};

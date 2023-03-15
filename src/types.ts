@@ -9,6 +9,17 @@ interface Movement {
   id?: string;
 }
 
+interface UpdatedMovement {
+  valor?: number;
+  tipo?: string;
+  categoria?: string;
+  subCategoria?: string;
+  usuário?: string;
+  data?: string;
+  descrição?: string;
+  id?: string;
+}
+
 interface Category {
   imagem: string;
   nome: string;
@@ -17,4 +28,4 @@ interface Category {
   id?: string;
 }
 
-export type { Movement, Category };
+export type { Movement, UpdatedMovement, Category };

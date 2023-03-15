@@ -20,6 +20,10 @@ const Summary = (props: SummaryProps) => {
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date().getMonth() + 1
   );
+  const [currentYear, setCurrentYear] = useState<number>(
+    new Date().getFullYear()
+  );
+
   const [income, setIncome] = useState<Movement[]>([]);
   const [savings, setSavings] = useState<Movement[]>([]);
   const [expense, setExpense] = useState<Movement[]>([]);
@@ -161,6 +165,7 @@ const Summary = (props: SummaryProps) => {
     <fieldset className="summaryContainer">
       <legend className="summaryTitle">Monthly Summary</legend>
       <div className="monthAndBalanceContainer">
+        <div>{currentYear}</div>
         <select
           className="monthContainer"
           onChange={handlerMonthChange}

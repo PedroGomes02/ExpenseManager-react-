@@ -1,0 +1,15 @@
+.updateMovementContainer {
+    display: flex;
+    flex-direction: column;
+    margin: 0.125rem;
+    padding: 0.125rem;
+    border: 0.125rem solid var(--secondaryColor);
+    border-radius: 0.5rem;
+    color: var(--primaryTextColor);
+  }
+  
+  .updateMovementTitle {
+    font-weight: bold;
+    padding: 0 0.5rem;
+    color: var(--primaryTextColor);
+  }

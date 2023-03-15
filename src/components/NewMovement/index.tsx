@@ -1,4 +1,4 @@
-import { ChangeEventHandler, Dispatch, useEffect, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 
 import { User } from "firebase/auth";
 import { db } from "../../firebase";

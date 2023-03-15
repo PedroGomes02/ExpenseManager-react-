@@ -28,9 +28,9 @@ export default function App() {
     auth.signOut();
   };
 
-  const [isUserDataLoading, setIsUserDataLoading] = useState<boolean>(true);
-  const [movements, setMovements] = useState<Movement[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [movements, setMovements] = useState<Movement[]>([]);
+  const [isUserDataLoading, setIsUserDataLoading] = useState<boolean>(true);
 
   useEffect(() => {
     getUserData(setCategories, setMovements, setIsUserDataLoading);

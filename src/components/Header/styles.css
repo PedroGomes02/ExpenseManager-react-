@@ -1,6 +1,6 @@
 .headerNav {
   width: 100%;
-  height: 80px;
+  height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,8 +29,8 @@
 
 .signInHeaderButton {
   padding: 1rem;
-  border-radius: 5px;
   border: none;
+  border-radius: 5px;
   font-weight: bold;
 }
 .signInHeaderButton:hover {
@@ -47,15 +47,15 @@
 }
 .signOutButton {
   align-self: flex-end;
-  font-weight: bold;
-  color: var(--secondaryColor);
   background-color: transparent;
   border: none;
+  font-weight: bold;
+  color: var(--backgroundColor);
 }
 .signOutButton:hover {
   cursor: pointer;
 }
 .userAvatar {
-  border: 0.25rem solid var(--secondaryColor);
+  border: 0.25rem solid var(--backgroundColor);
   border-radius: 50%;
 }
