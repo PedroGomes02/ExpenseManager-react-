@@ -121,7 +121,7 @@ const Movements = (props: MovementsProps) => {
               <li key={index} className={`movementListItem ${movement.tipo}`}>
                 <div className="movementListItemData">
                   <div className="dateAndImageContainer">
-                    <span>{movement.data} </span>
+                    <span>{new Date(movement.data).toLocaleDateString()} </span>
                     <img
                       className="categorieImage"
                       src={
@@ -146,7 +146,7 @@ const Movements = (props: MovementsProps) => {
                     <span>{movement.descrição}</span>
                   </div>
                   <div className="valueAndButtonsContainer">
-                    <span>{`${movement.valor}€`}</span>
+                    <span>{`${Number(movement.valor).toFixed(2)}€`}</span>
                     <div className="cardButtons">
                       <button
                         className="movementButton"

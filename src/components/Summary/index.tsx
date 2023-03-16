@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Category, Movement } from "../../types";
-import { getDataFromDB } from "../../utils";
+import { getDataFromDB, months } from "../../utils";
 import "./styles.css";
 
 interface SummaryProps {
@@ -46,28 +46,13 @@ const Summary = (props: SummaryProps) => {
     CategoriesSummaryByType[]
   >([]);
 
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
   useEffect(() => {
     const setMonthMovements = async () => {
       const movements = await getDataFromDB("movimentos");
       const monthlyMovements = movements.filter(
-        (movimento: Movement) =>
-          Number(movimento.data.split("/")[1]) === currentMonth &&
-          new Date(movimento.data).getFullYear() === currentYear
+        (movement: Movement) =>
+          new Date(movement.data).getMonth() + 1 === currentMonth &&
+          new Date(movement.data).getFullYear() === currentYear
       );
 
       setExpenseMovements(
@@ -109,7 +94,6 @@ const Summary = (props: SummaryProps) => {
             .toFixed(2),
         };
       });
-    console.log(categorySummary);
 
     setIncomeSummaryData(categorySummary);
     setIsIncomeSummaryOpen(!isIncomeSummaryOpen);
@@ -249,7 +233,7 @@ const Summary = (props: SummaryProps) => {
             }`}
             onClick={handlerIncomeClick}
           >
-            +
+            by category
           </button>
         </div>
         <div className="savingsSummary summaryByTypeCard">
@@ -264,7 +248,7 @@ const Summary = (props: SummaryProps) => {
             }`}
             onClick={handlerSavingsClick}
           >
-            +
+            by category
           </button>
         </div>
         <div className="expenseSummary summaryByTypeCard">
@@ -279,7 +263,7 @@ const Summary = (props: SummaryProps) => {
             }`}
             onClick={handlerExpenseClick}
           >
-            +
+            by category
           </button>
         </div>
       </div>

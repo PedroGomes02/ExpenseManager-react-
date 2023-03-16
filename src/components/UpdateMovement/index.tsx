@@ -73,9 +73,7 @@ const UpdateMovement = (props: UpdateMovementsProps) => {
         event.currentTarget.subCategoria?.value.toLowerCase() || null,
     };
     if (event.currentTarget.data.value) {
-      updatedMovement.data = new Date(
-        event.currentTarget.data.value
-      ).toLocaleDateString();
+      updatedMovement.data = event.currentTarget.data.value;
     }
     if (event.currentTarget.valor.value) {
       updatedMovement.valor = event.currentTarget.valor.value;
@@ -201,14 +199,6 @@ const UpdateMovement = (props: UpdateMovementsProps) => {
           </div>
         </fieldset>
       </form>
-      <button
-        className="submitButton"
-        onClick={() => {
-          setMovementIdUpdateOpened("");
-        }}
-      >
-        ❌
-      </button>
     </>
   );
 };

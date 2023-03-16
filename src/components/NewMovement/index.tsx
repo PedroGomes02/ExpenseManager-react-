@@ -69,7 +69,7 @@ const NewMovement = (props: NewMovementProps) => {
     event.preventDefault();
     const newMovement: Movement = {
       categoria: event.currentTarget.categoria.value.toLowerCase(),
-      data: new Date(event.currentTarget.data.value).toLocaleDateString(),
+      data: event.currentTarget.data.value,
       descrição: event.currentTarget.descrição.value,
       subCategoria:
         event.currentTarget.subCategoria?.value.toLowerCase() || null,

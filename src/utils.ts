@@ -9,6 +9,21 @@ import {
 import { db } from "./firebase";
 import { Movement } from "./types";
 
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 const sortBy = (arr: any[], key: string) =>
   arr.sort((a, b) => (a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0));
 
@@ -77,6 +92,7 @@ const updateDocOnCollection = async (
 };
 
 export {
+  months,
   getDataFromDB,
   getUserData,
   refreshMovements,
