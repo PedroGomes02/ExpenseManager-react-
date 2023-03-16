@@ -24,27 +24,13 @@ const Summary = (props: SummaryProps) => {
     new Date().getFullYear()
   );
 
-  const [incomeMovements, setIncomeMovements] = useState<Movement[]>([]);
-  const [savingsMovements, setSavingsMovements] = useState<Movement[]>([]);
-  const [expenseMovements, setExpenseMovements] = useState<Movement[]>([]);
+  const [totalIncome, setTotalIncome] = useState<number>(0);
+  const [totalSavings, setTotalSavings] = useState<number>(0);
+  const [totalExpense, setTotalExpense] = useState<number>(0);
 
-  const [isIncomeSummaryOpen, setIsIncomeSummaryOpen] =
-    useState<boolean>(false);
-  const [incomeSummaryData, setIncomeSummaryData] = useState<
-    CategoriesSummaryByType[]
-  >([]);
-
-  const [isSavingsSummaryOpen, setIsSavingsSummaryOpen] =
-    useState<boolean>(false);
-  const [savingsSummaryData, setSavingsSummaryData] = useState<
-    CategoriesSummaryByType[]
-  >([]);
-
-  const [isExpenseSummaryOpen, setIsExpenseSummaryOpen] =
-    useState<boolean>(false);
-  const [expenseSummaryData, setExpenseSummaryData] = useState<
-    CategoriesSummaryByType[]
-  >([]);
+  const [typeOfMovementsSummaryToOpen, setTypeOfMovementsSummaryToOpen] =
+    useState<string>("");
+  const [summaryData, setSummaryData] = useState<CategoriesSummaryByType[]>([]);
 
   useEffect(() => {
     const setMonthMovements = async () => {
@@ -55,19 +41,30 @@ const Summary = (props: SummaryProps) => {
           new Date(movement.data).getFullYear() === currentYear
       );
 
-      setExpenseMovements(
-        monthlyMovements?.filter(
-          (movement: Movement) => movement.tipo === "expense"
+      setTotalIncome(
+        Number(
+          monthlyMovements
+            ?.filter((movement: Movement) => movement.tipo === "income")
+            .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
+            .toFixed(2)
         )
       );
-      setIncomeMovements(
-        monthlyMovements?.filter(
-          (movement: Movement) => movement.tipo === "income"
+
+      setTotalSavings(
+        Number(
+          monthlyMovements
+            ?.filter((movement: Movement) => movement.tipo === "savings")
+            .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
+            .toFixed(2)
         )
       );
-      setSavingsMovements(
-        monthlyMovements?.filter(
-          (movement: Movement) => movement.tipo === "savings"
+
+      setTotalExpense(
+        Number(
+          monthlyMovements
+            ?.filter((movement: Movement) => movement.tipo === "expense")
+            .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
+            .toFixed(2)
         )
       );
     };
@@ -78,9 +75,15 @@ const Summary = (props: SummaryProps) => {
     setCurrentMonth(Number(e.currentTarget.value) + 1);
   };
 
-  const handlerIncomeClick = () => {
+  const handlerClickSummaryOpen = (event: any) => {
+    if (typeOfMovementsSummaryToOpen === event.currentTarget.id) {
+      setTypeOfMovementsSummaryToOpen("");
+      return;
+    }
     const categorySummary: CategoriesSummaryByType[] = categories
-      .filter((categorie: Category) => categorie.tipo === "income")
+      .filter(
+        (categorie: Category) => categorie.tipo === event.currentTarget.id
+      )
       .map((element: Category) => {
         return { nome: element.nome, imagem: element.imagem };
       })
@@ -88,61 +91,19 @@ const Summary = (props: SummaryProps) => {
         return {
           image: element.imagem,
           category: element.nome,
-          accumulatedValue: incomeMovements
-            ?.filter((income: Movement) => income.categoria === element.nome)
+          accumulatedValue: movements
+            .filter(
+              (movement: Movement) => movement.tipo === event.currentTarget.id
+            )
+            ?.filter(
+              (movement: Movement) => movement.categoria === element.nome
+            )
             .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
             .toFixed(2),
         };
       });
-
-    setIncomeSummaryData(categorySummary);
-    setIsIncomeSummaryOpen(!isIncomeSummaryOpen);
-    setIsSavingsSummaryOpen(false);
-    setIsExpenseSummaryOpen(false);
-  };
-
-  const handlerSavingsClick = () => {
-    const categorySummary: CategoriesSummaryByType[] = categories
-      .filter((categorie: Category) => categorie.tipo === "savings")
-      .map((element: Category) => {
-        return { nome: element.nome, imagem: element.imagem };
-      })
-      .map((element: { nome: string; imagem: string }) => {
-        return {
-          image: element.imagem,
-          category: element.nome,
-          accumulatedValue: savingsMovements
-            ?.filter((savings: Movement) => savings.categoria === element.nome)
-            .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
-            .toFixed(2),
-        };
-      });
-    setSavingsSummaryData(categorySummary);
-    setIsIncomeSummaryOpen(false);
-    setIsSavingsSummaryOpen(!isSavingsSummaryOpen);
-    setIsExpenseSummaryOpen(false);
-  };
-
-  const handlerExpenseClick = () => {
-    const categorySummary: CategoriesSummaryByType[] = categories
-      .filter((categorie: Category) => categorie.tipo === "expense")
-      .map((element: Category) => {
-        return { nome: element.nome, imagem: element.imagem };
-      })
-      .map((element: { nome: string; imagem: string }) => {
-        return {
-          image: element.imagem,
-          category: element.nome,
-          accumulatedValue: expenseMovements
-            ?.filter((expense: Movement) => expense.categoria === element.nome)
-            .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
-            .toFixed(2),
-        };
-      });
-    setExpenseSummaryData(categorySummary);
-    setIsIncomeSummaryOpen(false);
-    setIsSavingsSummaryOpen(false);
-    setIsExpenseSummaryOpen(!isExpenseSummaryOpen);
+    setSummaryData(categorySummary);
+    setTypeOfMovementsSummaryToOpen(event.currentTarget.id);
   };
 
   return (
@@ -163,105 +124,54 @@ const Summary = (props: SummaryProps) => {
         </select>
 
         <div className="balanceSummary summaryByTypeCard">
-          Balance:{" "}
-          {(
-            Number(
-              incomeMovements
-                .reduce(
-                  (a: number, c: { valor: number }) => a + Number(c.valor),
-                  0
-                )
-                .toFixed(2)
-            ) -
-            Number(
-              savingsMovements
-                .reduce(
-                  (a: number, c: { valor: number }) => a + Number(c.valor),
-                  0
-                )
-                .toFixed(2)
-            ) -
-            Number(
-              expenseMovements
-                .reduce(
-                  (a: number, c: { valor: number }) => a + Number(c.valor),
-                  0
-                )
-                .toFixed(2)
-            )
-          ).toFixed(2)}
-          €
+          Balance: {(totalIncome - totalSavings - totalExpense).toFixed(2)}€
         </div>
       </div>
       <progress
         className="progressBalance"
-        value={
-          Number(
-            savingsMovements
-              .reduce(
-                (a: number, c: { valor: number }) => a + Number(c.valor),
-                0
-              )
-              .toFixed(2)
-          ) +
-          Number(
-            expenseMovements
-              .reduce(
-                (a: number, c: { valor: number }) => a + Number(c.valor),
-                0
-              )
-              .toFixed(2)
-          )
-        }
-        max={Number(
-          incomeMovements
-            .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
-            .toFixed(2)
-        )}
+        value={totalExpense + totalSavings}
+        max={totalIncome}
       ></progress>
 
       <div className="summaryByTypeContainer">
         <div className="incomeSummary summaryByTypeCard">
-          Income:{" "}
-          {incomeMovements
-            .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
-            .toFixed(2)}
-          €
+          Income: {totalIncome}€
           <button
+            id={"income"}
             className={`showMoreButton ${
-              isIncomeSummaryOpen ? "selectedTypeSummary" : undefined
+              typeOfMovementsSummaryToOpen === "income"
+                ? "selectedTypeSummary"
+                : undefined
             }`}
-            onClick={handlerIncomeClick}
+            onClick={handlerClickSummaryOpen}
           >
             by category
           </button>
         </div>
         <div className="savingsSummary summaryByTypeCard">
-          Savings:{" "}
-          {savingsMovements
-            .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
-            .toFixed(2)}
-          €
+          Savings: {totalSavings}€
           <button
+            id={"savings"}
             className={`showMoreButton ${
-              isSavingsSummaryOpen ? "selectedTypeSummary" : undefined
+              typeOfMovementsSummaryToOpen === "savings"
+                ? "selectedTypeSummary"
+                : undefined
             }`}
-            onClick={handlerSavingsClick}
+            onClick={handlerClickSummaryOpen}
           >
             by category
           </button>
         </div>
         <div className="expenseSummary summaryByTypeCard">
-          Expense:{" "}
-          {expenseMovements
-            .reduce((a: number, c: { valor: number }) => a + Number(c.valor), 0)
-            .toFixed(2)}
-          €
+          Expense: {totalExpense}€
           <button
+            id={"expense"}
             className={`showMoreButton ${
-              isExpenseSummaryOpen ? "selectedTypeSummary" : undefined
+              typeOfMovementsSummaryToOpen === "expense"
+                ? "selectedTypeSummary"
+                : undefined
             }`}
-            onClick={handlerExpenseClick}
+            onClick={handlerClickSummaryOpen}
           >
             by category
           </button>
@@ -269,41 +179,9 @@ const Summary = (props: SummaryProps) => {
       </div>
 
       <ul className="typeSummaryListContainer">
-        {!isIncomeSummaryOpen
+        {!typeOfMovementsSummaryToOpen
           ? null
-          : incomeSummaryData?.map(
-              (element: CategoriesSummaryByType, index: number) => {
-                return (
-                  <li key={index} className="typeSummaryListItem">
-                    <img
-                      className="typeSummaryListItemImage"
-                      src={element.image}
-                      width="25"
-                    />
-                    {element.category} {element.accumulatedValue}€
-                  </li>
-                );
-              }
-            )}
-        {!isSavingsSummaryOpen
-          ? null
-          : savingsSummaryData?.map(
-              (element: CategoriesSummaryByType, index: number) => {
-                return (
-                  <li key={index} className="typeSummaryListItem">
-                    <img
-                      className="typeSummaryListItemImage"
-                      src={element.image}
-                      width="25"
-                    />
-                    {element.category} {element.accumulatedValue}€
-                  </li>
-                );
-              }
-            )}
-        {!isExpenseSummaryOpen
-          ? null
-          : expenseSummaryData?.map(
+          : summaryData?.map(
               (element: CategoriesSummaryByType, index: number) => {
                 return (
                   <li key={index} className="typeSummaryListItem">
