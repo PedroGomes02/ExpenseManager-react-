@@ -15,13 +15,13 @@
   padding: 0 0.5rem;
   color: var(--primaryTextColor);
 }
-.monthAndBalanceContainer {
+.balanceContainer {
   display: flex;
   align-items: center;
   gap: 1rem;
 }
 
-.monthContainer {
+.yearAndMonthContainer {
   text-align: center;
   font-size: 1.5rem;
   border-radius: 10px;
@@ -31,7 +31,7 @@
   border: 0.125rem solid var(--primaryColor);
   background-color: var(--secondaryColor);
 }
-.monthOption {
+.yearAndMonthOption {
   background-color: var(--secondaryColor);
 }
 .progressBalance {

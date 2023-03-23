@@ -17,6 +17,14 @@ interface CategoriesSummaryByType {
 const Summary = (props: SummaryProps) => {
   const { movements, categories } = props;
 
+  const years = Array.from(
+    new Set(
+      movements
+        .map((movement: Movement) => movement.data)
+        .map((movementData) => new Date(movementData).getFullYear())
+    )
+  ).sort((a, b) => a - b);
+
   const [currentMonth, setCurrentMonth] = useState<number>(
     new Date().getMonth() + 1
   );
@@ -69,7 +77,11 @@ const Summary = (props: SummaryProps) => {
       );
     };
     setMonthMovements();
-  }, [currentMonth, movements]);
+  }, [currentMonth, currentYear, movements]);
+
+  const handlerYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurrentYear(Number(e.currentTarget.value));
+  };
 
   const handlerMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrentMonth(Number(e.currentTarget.value) + 1);
@@ -109,15 +121,26 @@ const Summary = (props: SummaryProps) => {
   return (
     <fieldset className="summaryContainer">
       <legend className="summaryTitle">Monthly Summary</legend>
-      <div className="monthAndBalanceContainer">
-        <div>{currentYear}</div>
+      <div className="balanceContainer">
         <select
-          className="monthContainer"
+          className="yearAndMonthContainer"
+          onChange={handlerYearChange}
+          defaultValue={new Date().getFullYear()}
+        >
+          {years.map((year: number, index: number) => (
+            <option className="yearAndMonthOption" key={index} value={year}>
+              {year}
+            </option>
+          ))}
+        </select>
+
+        <select
+          className="yearAndMonthContainer"
           onChange={handlerMonthChange}
           defaultValue={new Date().getMonth()}
         >
           {months.map((month: string, index: number) => (
-            <option className="monthOption" key={index} value={index}>
+            <option className="yearAndMonthOption" key={index} value={index}>
               {month}
             </option>
           ))}
