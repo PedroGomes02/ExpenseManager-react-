@@ -1,10 +1,8 @@
 import { Dispatch, useEffect, useState } from "react";
 
 import { User } from "firebase/auth";
-import { db } from "../../firebase";
-import { addDoc, collection } from "firebase/firestore";
 
-import { refreshMovements } from "../../utils";
+import { addDocOnCollection, refreshMovements } from "../../utils";
 import { Category, Movement } from "../../types";
 
 import "./styles.css";
@@ -64,7 +62,6 @@ const NewMovement = (props: NewMovementProps) => {
     );
   };
 
-  //PUT NEW MOVEMENTS ON DB
   const addNewMovement = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const newMovement: Movement = {
@@ -80,10 +77,9 @@ const NewMovement = (props: NewMovementProps) => {
     console.log(newMovement);
 
     try {
-      const docRef = await addDoc(collection(db, "movimentos"), newMovement);
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
+      addDocOnCollection("movimentos", newMovement);
+    } catch (error) {
+      console.error("Error adding document: ", error);
     } finally {
       const target = event.target as HTMLFormElement;
       target.reset();

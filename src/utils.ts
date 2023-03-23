@@ -56,14 +56,10 @@ const refreshMovements = async (setMovements: any) => {
   setMovements(sortBy([...movementsFromDB], "data").reverse());
 };
 
-const addDocOnCollection = async (
-  docId: string,
-  collection: any,
-  newMovement: Movement
-) => {
+const addDocOnCollection = async (myCollection: any, newMovement: Movement) => {
   try {
-    await addDoc(collection(db, collection), newMovement);
-    console.log("Document written with ID: ", docId);
+    const docRef = await addDoc(collection(db, myCollection), newMovement);
+    console.log("Document written with ID: ", docRef.id);
   } catch (error) {
     console.error("Error adding document: ", error);
   }

@@ -180,7 +180,7 @@ const Summary = (props: SummaryProps) => {
 
       <ul className="typeSummaryListContainer">
         {!typeOfMovementsSummaryToOpen
-          ? null
+          ? false
           : summaryData?.map(
               (element: CategoriesSummaryByType, index: number) => {
                 return (

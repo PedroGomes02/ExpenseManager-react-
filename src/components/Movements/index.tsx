@@ -5,7 +5,6 @@ import { Category, Movement } from "../../types";
 
 import "./styles.css";
 import UpdateMovement from "../UpdateMovement";
-import Loading from "../Loading";
 
 interface MovementsProps {
   movements: Movement[];
